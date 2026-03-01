@@ -43,6 +43,22 @@ ulimit -S -c 0 # Don't want coredumps.
 
 #newbie from windows
 alias ls="ls -la --color=auto --group-directories-first"
+alias cdg="cd /github/ChiliOS/RepoChililinux/void/current/"
+alias cdr="cd /github/ChiliOS/packages/core/testing/x86_64/"
+alias cdp="cd /var/cache/pacman/pkg"
+alias cda="cd /var/cache/fetch/archives"
+alias cda="cd $HOME/.local/share/applications/"
+alias cdb="cd /github/"
+alias cdv="cd /github/voidbr/"
+alias dira="dir $HOME/.local/share/applications/"
+alias dirb="dir /github/bcc/"
+alias cds="cd /var/cache/fetch/search"
+alias cdd="cd /var/cache/fetch/desc"
+alias cdl="cd /github/sci/linux"
+alias cdk="cd /github/mklive"
+alias cdf="cd /github/fenix"
+alias cdgo="cd /chili/go/"
+
 alias .1='cd ..'
 alias .2='cd ../..'
 alias .3='cd ../../..'
@@ -146,19 +162,23 @@ tolower() { find . -name "*$1*" | while read; do mv "$REPLY" "${REPLY,,}"; done;
 toupper() { find . -name "*$1*" | while read; do mv "$REPLY" "${REPLY^^}"; done; }
 has() { command -v "$1" >/dev/null; }
 printeradd() { addprinter "$@"; }
+
 lsd() {
 	printf "${blue}\n"
 	ls -l | awk '/^d/ {print $9}'
 	printf "${reset}"
 }
+
 lsa() {
 	echo -n ${orange}
 	ls -l | awk '/^-/ {print $9}'
 }
+
 filehoracerta() {
 	export SOURCE_DATE_EPOCH=$(date +%s)
 	find . -exec touch -h -d @$SOURCE_DATE_EPOCH {} +
 }
+
 horacerta() {
 	sudo ntpd -q -g
 	sudo hwclock --systohc
@@ -554,14 +574,14 @@ net() {
 }
 
 gpull() {
-  local rst=$(tput sgr0)
-  local red=$(tput setaf 1)
-  local green=$(tput setaf 2)
-  local blue=$(tput setaf 4)
+	local rst=$(tput sgr0)
+	local red=$(tput setaf 1)
+	local green=$(tput setaf 2)
+	local blue=$(tput setaf 4)
 
-  #export GH_TOKEN=
-  export EDITOR=nano
-  log_wait_msg "${blue}Iniciando git pull ${rst}"
+	#export GH_TOKEN=
+	export EDITOR=nano
+	log_wait_msg "${blue}Iniciando git pull ${rst}"
 	sudo git config credential.helper store
 	#	git config pull.ff only
 	#	git pull
@@ -569,19 +589,19 @@ gpull() {
 }
 
 gpush() {
-  local rst=$(tput sgr0)
-  local red=$(tput setaf 1)
-  local green=$(tput setaf 2)
-  local blue=$(tput setaf 4)
+	local rst=$(tput sgr0)
+	local red=$(tput setaf 1)
+	local green=$(tput setaf 2)
+	local blue=$(tput setaf 4)
 	local username=$(gh api user --jq '.login')
 	local name=$(gh api user --jq '.name')
 	local email=$(gh api user --jq '.email')
 
-  #export GH_TOKEN=
-  export EDITOR=nano
+	#export GH_TOKEN=
+	export EDITOR=nano
 	log_wait_msg "${red}Iniciando git push ${rst}"
-  git config --global user.name="$username"
-  git config --global user.email="$email"
+	git config --global user.name="$username"
+	git config --global user.email="$email"
 	git config credential.helper store
 	git add -A
 	git commit -m "$(date) $name ($email)"
