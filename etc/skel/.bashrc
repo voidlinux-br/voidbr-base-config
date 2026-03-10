@@ -152,7 +152,7 @@ fi
 
 [ -f ~/.fzf.bash ] && . ~/.fzf.bash
 [ -f ~/.bashrcfull ] && . ~/.bashrcfull
-[ -f /etc/bashrc   ] && . /etc/bashrc
+[ -f /etc/bashrc ] && . /etc/bashrc
 [ -f ~/.bashrckali ] && . ~/.bashrckali
 
 #if ((EUID != 0)); then
@@ -166,10 +166,15 @@ fi
 ##	export PS1="${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV)) }${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$(get_exit_status) "
 #	export PS1="${RED}\u@\h${NC}:${BLUE}\w${NC} \$(get_exit_status) "
 #fi
+
 export PS2="\[${yellow}\]→ \[${reset}\]"
 export PS4=$'${red}${0##*/}${green}[$FUNCNAME]${pink}[$LINENO]${reset} '
+if [ -n "$DISPLAY" ] && [ -e "$HOME/.Xauthority" ]; then
+	export XAUTHORITY=$HOME/.Xauthority
+fi
+stty -ixon
+
 # . /usr/share/blesh/ble.sh
 # . ~/.ps1
 # . ~/.ps1ok
 # . ~/.ps1powerline
-stty -ixon
