@@ -191,9 +191,42 @@ log_wait_msg() {
 	printf "${CURS_ZERO}${WAIT_PREFIX}${SET_COL}${WAIT_SUFFIX}\n"
 	return 0
 }
+
 log_success_msg() {
 	printf "${BMPREFIX}${@}"
 	printf "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}\n"
+	return 0
+}
+
+log_success_msg2() {
+	printf "${BMPREFIX}${@}"
+	printf "${CURS_ZERO}${SUCCESS_PREFIX}${SET_COL}${SUCCESS_SUFFIX}\n"
+	return 0
+}
+
+log_info_msg() {
+	echo -n -e "${BMPREFIX}${@}"
+	return 0
+}
+
+evaluate_retval() {
+	local error_value="$?"
+	if [ $# -gt 0 ]; then
+		error_value="$1"
+	fi
+	if ! (($grafico)); then
+		if [ ${error_value} = 0 ]; then
+			log_success_msg2
+		else
+			log_failure_msg2
+		fi
+	fi
+	return ${error_value}
+}
+
+log_failure_msg2() {
+	printf "${BMPREFIX}${@}"
+	printf "${CURS_ZERO}${FAILURE_PREFIX}${SET_COL}${FAILURE_SUFFIX}\n"
 	return 0
 }
 
@@ -1421,4 +1454,18 @@ xcopyc() {
 	set -f
 	eval "rsync -av --perms --progress --relative $origem \"$destino\""
 	set +f
+}
+
+limpa() {
+	local cdir=$(ls -l | awk '/^d/ {print $9}')
+	local cor_blue="\e[1;34m"
+	local cor_orange=$(tput setaf 166)
+	echo -n -e ${cor_blue}
+	log_success_msg2 "Iniciando limpeza..."
+	for i in $cdir; do
+		log_info_msg "${cor_blue}Removendo diretorio temporario => ${cor_orange}$i"
+		sudo rm -rfd $i/
+		evaluate_retval
+	done
+	log_success_msg2 "Feito."
 }
