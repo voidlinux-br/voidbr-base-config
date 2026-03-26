@@ -122,6 +122,7 @@ alias versao=ver
 alias wget="wget --no-check-certificate"
 alias xcopyn="cp -Rpvan"
 alias xcopy="cp -Rpva"
+alias chili-duf='lsblk -Ao NAME,PATH,SIZE,TRAN,MODEL,LABEL,SERIAL,PTTYPE'
 
 #harbour
 alias rmake="[ ! -d /tmp/.hbmk ] && { mkdir -p /tmp/.hbmk; }; hbmk2 -info -comp=gcc   -cpp=yes -jobs=36"
